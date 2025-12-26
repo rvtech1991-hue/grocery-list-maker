@@ -1,0 +1,79 @@
+{
+  "units": ["G(s)", "KG(s)", "Liter(s)", "Piece(s)"],
+
+  "user": {
+    "name": "Rakesh Vishwakarma",
+    "mobile": "9623899862",
+    "shopkeeperMobile": "7506692789"
+  },
+
+  "items": [
+    { "id": 1, "name": "Tuar Dal" },
+    { "id": 2, "name": "Masur Dal" },
+    { "id": 3, "name": "Kali Urad Dal" },
+    { "id": 4, "name": "Idli White Dal" },
+    { "id": 5, "name": "Akha Moong" },
+    { "id": 6, "name": "Akha Masur" },
+    { "id": 7, "name": "Chola Chana" },
+    { "id": 8, "name": "Chana Dal" },
+    { "id": 9, "name": "Vatana Dal" },
+    { "id": 10, "name": "Kala Chana" },
+
+    { "id": 11, "name": "Hara Vatana" },
+    { "id": 12, "name": "White Vatana" },
+    { "id": 13, "name": "Moong Dal" },
+    { "id": 14, "name": "Soyabean" },
+    { "id": 15, "name": "Haldi Powder" },
+    { "id": 16, "name": "Jeera" },
+    { "id": 17, "name": "Akha Dhaniya" },
+    { "id": 18, "name": "Tikha Lal Mirch Powder" },
+    { "id": 19, "name": "Kashmiri Lal Mirch Powder" },
+    { "id": 20, "name": "Akha Garam Masala" },
+
+    { "id": 21, "name": "Sarso" },
+    { "id": 22, "name": "Methi Dana" },
+    { "id": 23, "name": "Hing" },
+    { "id": 24, "name": "Laung" },
+    { "id": 25, "name": "Kali Mirch" },
+    { "id": 26, "name": "Dalchini" },
+    { "id": 27, "name": "Hari Elachi" },
+    { "id": 28, "name": "Tej Patta" },
+    { "id": 29, "name": "Tata Salt" },
+    { "id": 30, "name": "Imli" },
+
+    { "id": 31, "name": "Ajwain" },
+    { "id": 32, "name": "Sonth" },
+    { "id": 33, "name": "Chicken Masala" },
+    { "id": 34, "name": "Kitchen King Masala" },
+    { "id": 35, "name": "Sarso Oil" },
+    { "id": 36, "name": "Refined Oil" },
+    { "id": 37, "name": "Panchforan" },
+    { "id": 38, "name": "Sugar" },
+    { "id": 39, "name": "Society Tea" },
+    { "id": 40, "name": "Poha" },
+    { "id": 41, "name": "Singdana" },
+
+    { "id": 42, "name": "Suji" },
+    { "id": 43, "name": "Eno" },
+    { "id": 44, "name": "Sabudana" },    
+    { "id": 45, "name": "Godrej No.1 Soap" },
+    { "id": 46, "name": "Sunlight Bar Soap" },
+    { "id": 47, "name": "Sasa Washing Powder" },
+    { "id": 48, "name": "Ariel" },
+    { "id": 49, "name": "Exo Dishwashing Bar" },
+    { "id": 50, "name": "Maida" },
+
+    { "id": 51, "name": "Sukha Khopra" },
+    { "id": 52, "name": "Kaju" },
+    { "id": 53, "name": "Badam" },
+    { "id": 54, "name": "Kismis" },
+    { "id": 55, "name": "Akhrot" },
+    { "id": 56, "name": "Masuri Methi" }
+
+    
+  ]
+
+
+
+}
+
