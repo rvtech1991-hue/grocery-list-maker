@@ -46,7 +46,7 @@ const GroceryListApp = () => {
       })
       .catch((error: Error) => {
         console.error('Error loading config:', error);
-        showToast('Failed to load grocery items. Please refresh the page.', 'error');
+        showToast('Failed to load grocery items. Please refresh the page', 'error');
         setLoading(false);
       });
   }, []);
