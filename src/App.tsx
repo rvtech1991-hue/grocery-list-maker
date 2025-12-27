@@ -267,7 +267,7 @@ const GroceryListApp = () => {
                   <th style={{ width: '60px' }}>Select</th>
                   <th>Item</th>
                   <th style={{ width: '120px' }}>Unit</th>
-                  <th style={{ width: '80px' }}>Qty</th>
+                  <th style={{ width: '90px' }}>Qty</th>
                 </tr>
               </thead>
               <tbody>
