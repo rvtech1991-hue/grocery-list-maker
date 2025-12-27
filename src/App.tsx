@@ -265,8 +265,8 @@ const GroceryListApp = () => {
               <thead className="table-dark">
                 <tr>
                   <th style={{ width: '60px' }}>Select</th>
-                  <th>Grocery Item</th>
-                  <th style={{ width: '150px' }}>Unit</th>
+                  <th>Item</th>
+                  <th style={{ width: '120px' }}>Unit</th>
                   <th style={{ width: '80px' }}>Qty</th>
                 </tr>
               </thead>
