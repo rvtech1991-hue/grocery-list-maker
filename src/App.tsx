@@ -267,7 +267,7 @@ const GroceryListApp = () => {
                   <th style={{ width: '60px' }}>Select</th>
                   <th>Grocery Item</th>
                   <th style={{ width: '150px' }}>Unit</th>
-                  <th style={{ width: '120px' }}>Quantity</th>
+                  <th style={{ width: '80px' }}>Qty</th>
                 </tr>
               </thead>
               <tbody>
@@ -303,9 +303,7 @@ const GroceryListApp = () => {
                         className="form-control"
                         value={item.quantity}
                         onChange={(e) => handleQuantityChange(item.id, e.target.value)}
-                        disabled={!item.selected}
-                        min="0.1"
-                        step="0.1"
+                        disabled={!item.selected} min="0.0" step="0.5"
                       />
                     </td>
                   </tr>
