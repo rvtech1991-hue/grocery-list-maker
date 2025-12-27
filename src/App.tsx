@@ -98,10 +98,11 @@ const GroceryListApp = () => {
     if (!config) return '';
     
     const selectedItems = getSelectedItems();
-    let text = `📅 Date: ${formatDate()}\n`;
-    text += `👤 Name: ${config.user.name}\n`;
-    text += `📱 Contact: ${config.user.mobile}\n\n`;
-    text += `🛒 *Grocery List*\n`;
+    let text = `*GROCERY LIST*\n`;
+    text += `${'-'.repeat(35)}\n`;
+    text += `Date: ${formatDate()}\n`;
+    text += `Name: ${config.user.name}\n`;
+    text += `Contact: ${config.user.mobile}\n`;
     text += `${'-'.repeat(35)}\n\n`;
     
     selectedItems.forEach((item, index) => {
