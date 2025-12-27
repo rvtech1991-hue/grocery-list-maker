@@ -37,7 +37,7 @@ const GroceryListApp = () => {
         // Initialize items from config
         const initialItems = configData.items.map((item: { id: number; name: string }) => ({
           ...item,
-          unit: 'KG(s)',
+          unit: 'Kg(s)',
           quantity: '1',
           selected: false
         }));
@@ -86,19 +86,30 @@ const GroceryListApp = () => {
     return `${day}-${month}-${year}`;
   };
 
+  const formatItemDisplay = (item: GroceryItem) => {
+    // If unit is "Other", don't show the unit word
+    if (item.unit === 'Other') {
+      return `${item.quantity} ${item.name}`;
+    }
+    return `${item.quantity} ${item.unit} ${item.name}`;
+  };
+
   const generateListText = () => {
     if (!config) return '';
     
     const selectedItems = getSelectedItems();
-    let text = `Date: ${formatDate()}\n`;
-    text += `Name: ${config.user.name}\n`;
-    text += `Contact No. - ${config.user.mobile}\n\n`;
-    text += `Grocery List:\n`;
-    text += `${'='.repeat(40)}\n\n`;
+    let text = `📅 Date: ${formatDate()}\n`;
+    text += `👤 Name: ${config.user.name}\n`;
+    text += `📱 Contact: ${config.user.mobile}\n\n`;
+    text += `🛒 *Grocery List*\n`;
+    text += `${'-'.repeat(35)}\n\n`;
     
     selectedItems.forEach((item, index) => {
-      text += `${index + 1}) ${item.quantity} ${item.unit} ${item.name}\n`;
+      text += `${index + 1}) ${formatItemDisplay(item)}\n`;
     });
+    
+    text += `\n${'-'.repeat(35)}\n`;
+    text += `Total Items: ${selectedItems.length}`;
     
     return text;
   };
@@ -182,18 +193,32 @@ const GroceryListApp = () => {
             </h4>
           </div>
           <div className="card-body">
-            <div className="bg-light p-4 rounded mb-4">
-              <div className="mb-2"><strong>Date:</strong> {formatDate()}</div>
-              <div className="mb-2"><strong>Name:</strong> {config.user.name}</div>
-              <div className="mb-2"><strong>Contact No.:</strong> {config.user.mobile}</div>
+            <div className="bg-light p-4 rounded mb-4 border border-primary">
+              <div className="row">
+                <div className="col-12 mb-2">
+                  <span className="text-muted">📅</span> <strong>Date:</strong> <span className="text-primary">{formatDate()}</span>
+                </div>
+                <div className="col-12 mb-2">
+                  <span className="text-muted">👤</span> <strong>Name:</strong> <span className="text-primary">{config.user.name}</span>
+                </div>
+                <div className="col-12">
+                  <span className="text-muted">📱</span> <strong>Contact:</strong> <span className="text-primary">{config.user.mobile}</span>
+                </div>
+              </div>
             </div>
             
-            <h5 className="mb-3 text-primary">Selected Items:</h5>
+            <div className="d-flex justify-content-between align-items-center mb-3">
+              <h5 className="mb-0 text-success">🛒 Selected Items</h5>
+              <span className="badge bg-success fs-6">{selectedItems.length} items</span>
+            </div>
+            
             <div className="list-group mb-4">
               {selectedItems.map((item, index) => (
-                <div key={item.id} className="list-group-item">
-                  <span className="badge bg-primary me-2">{index + 1}</span>
-                  <strong>{item.quantity} {item.unit}</strong> {item.name}
+                <div key={item.id} className="list-group-item list-group-item-action">
+                  <div className="d-flex align-items-center">
+                    <span className="badge bg-primary rounded-circle me-3" style={{ width: '30px', height: '30px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{index + 1}</span>
+                    <span className="fs-5">{formatItemDisplay(item)}</span>
+                  </div>
                 </div>
               ))}
             </div>
@@ -277,7 +302,7 @@ const GroceryListApp = () => {
                       <input
                         type="checkbox"
                         className="form-check-input"
-                        style={{ width: '20px', height: '20px' }}
+                        style={{ width: '20px', height: '20px', cursor: 'pointer' }}
                         checked={item.selected}
                         onChange={() => handleCheckboxChange(item.id)}
                       />
@@ -295,6 +320,7 @@ const GroceryListApp = () => {
                         {config.units.map(unit => (
                           <option key={unit} value={unit}>{unit}</option>
                         ))}
+                        <option value="Other">Other</option>
                       </select>
                     </td>
                     <td>
@@ -303,7 +329,20 @@ const GroceryListApp = () => {
                         className="form-control"
                         value={item.quantity}
                         onChange={(e) => handleQuantityChange(item.id, e.target.value)}
-                        disabled={!item.selected} min="0.0" step="0.5"
+                        disabled={!item.selected}
+                        min="0.0"
+                        step="0.5"
+                        placeholder="1"
+                        style={{ display: item.unit === 'Other' ? 'none' : 'block' }}
+                      />
+                      <input
+                        type="text"
+                        className="form-control"
+                        value={item.quantity}
+                        onChange={(e) => handleQuantityChange(item.id, e.target.value)}
+                        disabled={!item.selected}
+                        placeholder="Rs.20"
+                        style={{ display: item.unit === 'Other' ? 'block' : 'none' }}
                       />
                     </td>
                   </tr>
