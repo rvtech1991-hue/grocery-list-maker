@@ -1,24 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { Download, Send, Copy, ShoppingCart, CheckCircle } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Download, Send, Copy, ShoppingCart, CheckCircle, List, LayoutGrid } from 'lucide-react';
+import { GroceryConfig, GroceryItem } from './types';
+import ClassicView from './components/ClassicView';
+import ModernView from './components/ModernView';
 
-// Grocery configuration - this will be loaded from JSON file
-interface GroceryConfig {
-  items: Array<{ id: number; name: string }>;
-  units: string[];
-  user: {
-    name: string;
-    mobile: string;
-    shopkeeperMobile: string;
-  };
-}
-
-interface GroceryItem {
-  id: number;
-  name: string;
-  unit: string;
-  quantity: string;
-  selected: boolean;
-}
+type ViewMode = 'classic' | 'modern';
 
 const GroceryListApp = () => {
   const [items, setItems] = useState<GroceryItem[]>([]);
@@ -26,6 +12,13 @@ const GroceryListApp = () => {
   const [loading, setLoading] = useState(true);
   const [showPreview, setShowPreview] = useState(false);
   const [toast, setToast] = useState({ show: false, message: '', type: '' });
+  const [viewMode, setViewMode] = useState<ViewMode>(
+    () => (localStorage.getItem('groceryViewMode') as ViewMode) || 'classic'
+  );
+
+  useEffect(() => {
+    localStorage.setItem('groceryViewMode', viewMode);
+  }, [viewMode]);
 
   useEffect(() => {
     // Load configuration from JSON file
@@ -33,9 +26,9 @@ const GroceryListApp = () => {
       .then(response => response.json())
       .then((configData: GroceryConfig) => {
         setConfig(configData);
-        
+
         // Initialize items from config
-        const initialItems = configData.items.map((item: { id: number; name: string }) => ({
+        const initialItems = configData.items.map((item) => ({
           ...item,
           unit: 'Kg(s)',
           quantity: '1',
@@ -273,95 +266,53 @@ const GroceryListApp = () => {
         </div>
       )}
 
-      <div className="card shadow-lg">
-        <div className="card-header bg-primary text-white">
-          <h3 className="mb-0 d-flex align-items-center">
-            <ShoppingCart size={28} className="me-2" />
-            Home Grocery List Maker
-          </h3>
-        </div>
-        
-        <div className="card-body">
-          <div className="alert alert-info mb-4">
-            <strong>Selected Items:</strong> <span className="badge bg-primary fs-6">{getSelectedCount()}</span>
-          </div>
+      <div className="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+        <h3 className="app-title mb-0 d-flex align-items-center text-white">
+          <ShoppingCart size={28} className="me-2" />
+          Home Grocery List Maker
+        </h3>
 
-          <div className="table-responsive">
-            <table className="table table-hover table-striped">
-              <thead className="table-dark">
-                <tr>
-                  <th style={{ width: '60px' }}>Select</th>
-                  <th>Item</th>
-                  <th style={{ width: '120px' }}>Unit</th>
-                  <th style={{ width: '90px' }}>Qty</th>
-                </tr>
-              </thead>
-              <tbody>
-                {items.map(item => (
-                  <tr key={item.id}>
-                    <td className="text-center">
-                      <input
-                        type="checkbox"
-                        className="form-check-input"
-                        style={{ width: '20px', height: '20px', cursor: 'pointer' }}
-                        checked={item.selected}
-                        onChange={() => handleCheckboxChange(item.id)}
-                      />
-                    </td>
-                    <td>
-                      <strong>{item.name}</strong>
-                    </td>
-                    <td>
-                      <select
-                        className="form-select"
-                        value={item.unit}
-                        onChange={(e) => handleUnitChange(item.id, e.target.value)}
-                        disabled={!item.selected}
-                      >
-                        {config.units.map(unit => (
-                          <option key={unit} value={unit}>{unit}</option>
-                        ))}
-                        <option value="Other">Other</option>
-                      </select>
-                    </td>
-                    <td>
-                      <input
-                        type="number"
-                        className="form-control"
-                        value={item.quantity}
-                        onChange={(e) => handleQuantityChange(item.id, e.target.value)}
-                        disabled={!item.selected}
-                        min="0.0"
-                        step="0.5"
-                        placeholder="1"
-                        style={{ display: item.unit === 'Other' ? 'none' : 'block' }}
-                      />
-                      <input
-                        type="text"
-                        className="form-control"
-                        value={item.quantity}
-                        onChange={(e) => handleQuantityChange(item.id, e.target.value)}
-                        disabled={!item.selected}
-                        placeholder="Rs.20"
-                        style={{ display: item.unit === 'Other' ? 'block' : 'none' }}
-                      />
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-
-          <div className="d-grid mt-4">
-            <button 
-              className="btn btn-primary btn-lg"
-              onClick={handleSubmit}
-            >
-              Submit & Preview List
-            </button>
-          </div>
+        <div className="btn-group" role="group" aria-label="View mode toggle">
+          <button
+            type="button"
+            className={`btn ${viewMode === 'classic' ? 'btn-light' : 'btn-outline-light'} d-flex align-items-center gap-1`}
+            onClick={() => setViewMode('classic')}
+          >
+            <List size={16} />
+            Classic
+          </button>
+          <button
+            type="button"
+            className={`btn ${viewMode === 'modern' ? 'btn-light' : 'btn-outline-light'} d-flex align-items-center gap-1`}
+            onClick={() => setViewMode('modern')}
+          >
+            <LayoutGrid size={16} />
+            Modern
+          </button>
         </div>
       </div>
+
+      {viewMode === 'classic' ? (
+        <ClassicView
+          items={items}
+          config={config}
+          onCheckboxChange={handleCheckboxChange}
+          onUnitChange={handleUnitChange}
+          onQuantityChange={handleQuantityChange}
+          onSubmit={handleSubmit}
+          selectedCount={getSelectedCount()}
+        />
+      ) : (
+        <ModernView
+          items={items}
+          config={config}
+          onCheckboxChange={handleCheckboxChange}
+          onUnitChange={handleUnitChange}
+          onQuantityChange={handleQuantityChange}
+          onSubmit={handleSubmit}
+          selectedCount={getSelectedCount()}
+        />
+      )}
     </div>
   );
 };
